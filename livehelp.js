@@ -30,7 +30,9 @@ if (typeof( jQuery) != 'undefined') {
     }
     $(document).ready(function() {
       if( !verifyStyle('glyphicon') ){
-        $("head").append("<link rel='stylesheet' href='"+ livehelp_localize.livehelp_url + 'bootstrap.min.css' +"' type='text/css' media='screen'>");
+        var elementTitle = document.getElementsByTagName('title');
+        $("<link rel='stylesheet' href='"+ livehelp_localize.livehelp_url + 'bootstrap.min.css' +"' type='text/css' media='screen'>")
+          .insertAfter(elementTitle);
       }
     });
   })(jQuery);

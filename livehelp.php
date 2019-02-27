@@ -47,6 +47,11 @@ function fnc_livehelp_init() {
     $livehelp_config_database = new livehelp_config_database();
     $livehelp_config = $livehelp_config_database->get_list_config();
 
+    if (count($livehelp_config) == 0) {
+      $livehelp_config['is_internal_popup'] = 'on';
+      $livehelp_config['is_show_leave_form'] = 'on';
+    }
+
     $siteAccess = '';
     $indexSite = 'index.php/';
     $is_internal_popup = (isset($livehelp_config['is_internal_popup']) && $livehelp_config['is_internal_popup'] == 'on') ? '/(click)/internal' : '';

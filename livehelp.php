@@ -6,6 +6,7 @@
 */
 
 define( 'LIVEHELP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'LIVEHELP_PLUGIN_URL', plugin_dir_url(__FILE__) );
 define( 'LIVEHELP_DOMAIN' , 'livehelp' );
 
 /* Runs when plugin is activated */
@@ -38,6 +39,9 @@ add_action('wp_footer', 'fnc_livehelp_init');
 
 function fnc_livehelp_init() {
   if( wp_script_is( 'jquery', 'done' ) ) {
+    wp_enqueue_script('livehelp-js', LIVEHELP_PLUGIN_URL . 'livehelp.js');
+    wp_localize_script('livehelp-js', 'livehelp_localize', array('livehelp_url' => LIVEHELP_PLUGIN_URL));
+
     require_once( LIVEHELP_PLUGIN_DIR . '/livehelp_config_database.php');
 
     $livehelp_config_database = new livehelp_config_database();

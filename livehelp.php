@@ -38,7 +38,11 @@ if (is_admin()) {
 add_action('wp_footer', 'fnc_livehelp_init');
 
 function fnc_livehelp_init() {
-  if( wp_script_is( 'jquery', 'done' ) ) {
+  if (!wp_script_is('jquery', 'enqueued')) {
+    wp_register_script('jquery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js', null, null, true);
+    wp_enqueue_script('jquery');
+  }
+  if( wp_script_is( 'jquery') ) {
     wp_enqueue_script('livehelp-js', LIVEHELP_PLUGIN_URL . 'livehelp.js');
     wp_localize_script('livehelp-js', 'livehelp_localize', array('livehelp_url' => LIVEHELP_PLUGIN_URL));
 
@@ -50,6 +54,8 @@ function fnc_livehelp_init() {
     if (count($livehelp_config) == 0) {
       $livehelp_config['is_internal_popup'] = 'on';
       $livehelp_config['is_show_leave_form'] = 'on';
+      $livehelp_config['minimize'] = 'br';
+      $livehelp_config['position'] = 'bottom_right';
     }
 
     $siteAccess = '';
@@ -83,6 +89,7 @@ function fnc_livehelp_init() {
     $popup_height = isset($livehelp_config['popup_height']) ? $livehelp_config['popup_height'] : 520;
     $popup_width = isset($livehelp_config['popup_width']) ? $livehelp_config['popup_width'] : 500;
     $http_mode = isset($livehelp_config['http_mode']) ? $livehelp_config['http_mode'] : '';
+    $site_name = isset($livehelp_config['site_name']) ? $livehelp_config['site_name'] : 'livehelp';
 
     $script = '';
     $script .= '<script type="text/javascript">';
@@ -92,7 +99,7 @@ function fnc_livehelp_init() {
     $script .=     'var po = document.createElement(\'script\'); po.type = \'text/javascript\'; po.async = true;';
     $script .=     'var referrer = (document.referrer) ? encodeURIComponent(document.referrer.substr(document.referrer.indexOf(\'://\')+1)) : \'\';';
     $script .=     'var location  = (document.location) ? encodeURIComponent(window.location.href.substring(window.location.protocol.length)) : \'\';';
-    $script .=     'po.src = \''. $http_mode .'//' . (($embed_domain_new != '') ? $embed_domain_new : $http_host) . '/livehelp/'. $indexSite . $siteAccess . 'chat/getstatus' . $is_internal_popup . $id_position . $id_ma . $is_hide_then_offline . $is_disable_online_tracking. $is_operator_message . $top . $topposition . $is_show_leave_form . $id_identifier . $is_disable_pro_active_invitations . '?r=\'+referrer+\'&l=\'+location;';
+    $script .=     'po.src = \''. $http_mode .'//' . (($embed_domain_new != '') ? $embed_domain_new : $http_host) . '/'.$site_name.'/'. $indexSite . $siteAccess . 'chat/getstatus' . $is_internal_popup . $id_position . $id_ma . $is_hide_then_offline . $is_disable_online_tracking. $is_operator_message . $top . $topposition . $is_show_leave_form . $id_identifier . $is_disable_pro_active_invitations . '?r=\'+referrer+\'&l=\'+location;';
     $script .=     'var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(po, s);';
     $script .=   '})();';
     $script .= '</scr' . 'ipt>';

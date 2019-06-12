@@ -108,6 +108,20 @@
         <tr>
           <td>
             <div>
+              <label for="site_name">
+                <?php esc_html_e('Site Name In Host', LIVEHELP_DOMAIN ); ?>
+              </label><br>
+              <input type="text"
+                      id="site_name"
+                      name="site_name"
+                      placeholder="<?php esc_attr_e('livehelp', LIVEHELP_DOMAIN) ?>"
+                      value="<?php echo (isset($livehelp_config['site_name'])) ? $livehelp_config['site_name'] : '' ?>">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div>
               <label for="http_mode">
                 <?php esc_html_e('Choose predered http mode', LIVEHELP_DOMAIN) ?>
               </label><br>
